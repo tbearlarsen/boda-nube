@@ -2,7 +2,7 @@
 
 ## Current Status
 
-Scoping complete. Tech stack confirmed. Ready to start building.
+Live at [wedding.sudheim.eu](https://wedding.sudheim.eu). Ready to build the first real page.
 
 ---
 
@@ -19,6 +19,8 @@ Scoping complete. Tech stack confirmed. Ready to start building.
 - [x] RSVP approach confirmed: custom form, no third-party services
 - [x] Astro project scaffolded — i18n config, base layout, translation strings
 - [x] All 22 pages created (language selector + 7 pages × 3 languages) — skeleton only
+- [x] Deployed to GitHub Pages via GitHub Actions (auto-deploys on every push to main)
+- [x] Live at [wedding.sudheim.eu](https://wedding.sudheim.eu) — custom domain, DNS verified, HTTPS enforced
 
 ## In Progress
 

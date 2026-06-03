@@ -11,3 +11,5 @@ Append-only. Every significant technical or design decision is recorded here wit
 | 3 | 2026-06-03 | Tech stack: Astro | Best fit for a fast, multilingual static site with a custom RSVP backend; free to host anywhere | |
 | 4 | 2026-06-03 | Language URL structure: subdirectories (`/en/`, `/es/`, `/da/`) | Simplest approach; native support in Astro's i18n system | |
 | 5 | 2026-06-03 | RSVP: custom form, no third-party form services | User's explicit direction — guest data stays in our own system | |
+| 6 | 2026-06-03 | Hosting: GitHub Pages with GitHub Actions CI/CD | Free, reliable, auto-deploys on every push to main | |
+| 7 | 2026-06-03 | Custom domain: wedding.sudheim.eu (subdomain of sudheim.eu via INWX) | User owns the domain; subdomain keeps it clean and changeable | HTTPS enforced |

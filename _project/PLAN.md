@@ -19,7 +19,8 @@ Site not yet scoped. This file will grow as the user defines features, sections,
 - Framework: Astro
 - Language routing: subdirectory approach — `/en/`, `/es/`, `/da/`
 - RSVP: custom form with server-side handling (Astro supports this natively)
-- Hosting: TBD (GitHub Pages, Netlify, Vercel all compatible)
+- Hosting: GitHub Pages, auto-deployed via GitHub Actions on push to `main`
+- Domain: [wedding.sudheim.eu](https://wedding.sudheim.eu) — HTTPS enforced
 
 ### Language Structure
 
