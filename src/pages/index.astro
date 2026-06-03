@@ -1,0 +1,24 @@
+---
+import { languages } from '../i18n/ui';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Prados-Riveros — 5 June 2027</title>
+  </head>
+  <body>
+    <h1>Prados-Riveros</h1>
+    <p>5 June 2027</p>
+    <ul>
+      {Object.entries(languages).map(([code, label]) => (
+        <li>
+          <a href={`/${code}/`}>{label}</a>
+        </li>
+      ))}
+    </ul>
+  </body>
+</html>

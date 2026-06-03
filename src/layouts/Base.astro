@@ -1,0 +1,35 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/ui';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <nav>
+      <a href={`/${lang}/`}>{t('nav.home')}</a>
+      <a href={`/${lang}/the-day`}>{t('nav.the-day')}</a>
+      <a href={`/${lang}/travel`}>{t('nav.travel')}</a>
+      <a href={`/${lang}/rsvp`}>{t('nav.rsvp')}</a>
+      <a href={`/${lang}/faq`}>{t('nav.faq')}</a>
+      <a href={`/${lang}/our-story`}>{t('nav.our-story')}</a>
+      <a href={`/${lang}/gift-registry`}>{t('nav.gift-registry')}</a>
+    </nav>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
