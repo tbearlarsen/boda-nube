@@ -8,26 +8,169 @@ interface Props {
 const { title } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const path = Astro.url.pathname.replace(/\/$/, '');
+const isActive = (href: string) => href.replace(/\/$/, '') === path;
+
+const flags: Record<string, string> = { en: '🇬🇧', es: '🇪🇸', da: '🇩🇰' };
+const otherLangs = Object.keys(flags).filter(l => l !== lang) as Array<keyof typeof flags>;
+const switchPath = (target: string) => Astro.url.pathname.replace(`/${lang}/`, `/${target}/`);
 ---
 
 <!doctype html>
 <html lang={lang}>
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/monogram.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Qwitcher+Grypen&display=swap" rel="stylesheet" />
     <title>{title}</title>
   </head>
+  <style is:global>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #faf9f7;
+      color: #2c2c2c;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 2rem 0;
+    }
+
+    .nav-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 2rem;
+    }
+
+    .lang-switcher {
+      position: relative;
+      user-select: none;
+      justify-self: start;
+    }
+
+    .lang-switcher summary {
+      list-style: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+      filter: grayscale(100%);
+    }
+
+    .lang-switcher summary::-webkit-details-marker { display: none; }
+
+    .lang-options {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: -0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      background: #faf9f7;
+      border: 1px solid #ddd8d0;
+      padding: 0.5rem;
+      z-index: 10;
+    }
+
+    .lang-option {
+      font-size: 1.5rem;
+      text-decoration: none;
+      line-height: 1;
+      filter: grayscale(100%);
+    }
+
+    .lang-option:hover {
+      opacity: 0.7;
+    }
+
+    .site-identity {
+      padding-bottom: 1.25rem;
+    }
+
+    .site-names {
+      font-family: 'Qwitcher Grypen', cursive;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 400;
+      color: #2c2c2c;
+      text-decoration: none;
+      display: block;
+      line-height: 1.1;
+    }
+
+    .site-date {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #999;
+      margin-top: 0.4rem;
+    }
+
+    .header-rule {
+      border: none;
+      border-top: 1px solid #ddd8d0;
+      margin: 0;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.25rem 2rem;
+      padding: 0.9rem 0;
+    }
+
+    nav a {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #2c2c2c;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: #888;
+    }
+
+    nav a[aria-current="page"] {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-thickness: 1px;
+    }
+  </style>
   <body>
-    <nav>
-      <a href={`/${lang}/`}>{t('nav.home')}</a>
-      <a href={`/${lang}/the-day`}>{t('nav.the-day')}</a>
-      <a href={`/${lang}/travel`}>{t('nav.travel')}</a>
-      <a href={`/${lang}/rsvp`}>{t('nav.rsvp')}</a>
-      <a href={`/${lang}/faq`}>{t('nav.faq')}</a>
-      <a href={`/${lang}/our-story`}>{t('nav.our-story')}</a>
-      <a href={`/${lang}/gift-registry`}>{t('nav.gift-registry')}</a>
-    </nav>
+    <header>
+      <div class="site-identity">
+        <p class="site-names">Thorbjørn & Lorena</p>
+        <p class="site-date">5 June 2027</p>
+      </div>
+      <hr class="header-rule" />
+      <div class="nav-row">
+        <details class="lang-switcher">
+          <summary class="lang-current">{flags[lang]}</summary>
+          <div class="lang-options">
+            {otherLangs.map(l => (
+              <a href={switchPath(l)} class="lang-option">{flags[l]}</a>
+            ))}
+          </div>
+        </details>
+        <nav>
+          <a href={`/${lang}/`} aria-current={isActive(`/${lang}/`) ? 'page' : undefined}>{t('nav.home')}</a>
+          <a href={`/${lang}/the-day`} aria-current={isActive(`/${lang}/the-day`) ? 'page' : undefined}>{t('nav.the-day')}</a>
+          <a href={`/${lang}/travel`} aria-current={isActive(`/${lang}/travel`) ? 'page' : undefined}>{t('nav.travel')}</a>
+          <a href={`/${lang}/rsvp`} aria-current={isActive(`/${lang}/rsvp`) ? 'page' : undefined}>{t('nav.rsvp')}</a>
+          <a href={`/${lang}/faq`} aria-current={isActive(`/${lang}/faq`) ? 'page' : undefined}>{t('nav.faq')}</a>
+          <a href={`/${lang}/our-story`} aria-current={isActive(`/${lang}/our-story`) ? 'page' : undefined}>{t('nav.our-story')}</a>
+          <a href={`/${lang}/gift-registry`} aria-current={isActive(`/${lang}/gift-registry`) ? 'page' : undefined}>{t('nav.gift-registry')}</a>
+        </nav>
+        <div></div>
+      </div>
+      <hr class="header-rule" />
+    </header>
     <main>
       <slot />
     </main>

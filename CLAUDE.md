@@ -10,21 +10,26 @@ one focused question.
 
 ---
 
-## Default Mode: Plan, Don't Build
+## Two Modes
 
-Every request gets a plan before any implementation. Wait for explicit
-confirmation ("go", or a redirect) before touching any file. Even if the plan
-is trivial, still write it. The habit matters more than the time it saves.
+### Planning Mode (default)
 
----
+Every request gets a full plan before any implementation. Wait for explicit
+confirmation ("go", or a redirect) before touching any file.
 
-## Every Plan Must Include
+Every plan must include:
 
 - **Steps checklist** — discrete steps to check off as work progresses
 - **Decision rationale** — one-liner for each technical or design choice
 - **Open questions** — anything that needs user input before proceeding
 - **Risk flags** — anything that could cause problems or rework later
 - **What I'm NOT doing** — explicit scope-outs so the user knows the boundaries
+
+### Build Mode
+
+Write a brief plan (what I'm doing, which files I'll touch), then proceed
+immediately — no "go" required. Still ask one focused question if there's a
+genuine blocker. Still read files before editing them.
 
 ---
 
@@ -58,6 +63,7 @@ is trivial, still write it. The habit matters more than the time it saves.
 2. Read `_project/PROGRESS.md`
 3. Check `_project/QUESTIONS.md` — if any Open questions have been answered in conversation, propose moving them to Resolved (wait for confirmation before editing the file)
 4. If any source-of-truth file appears out of date, flag it to the user and propose an update — do not edit it without confirmation
+5. Ask: **"Are we in build mode or planning mode today?"** — build mode means I plan briefly and proceed without asking for go; planning mode means full plans and explicit confirmation before every change
 
 ---
 
