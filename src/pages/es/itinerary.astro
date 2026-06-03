@@ -1,0 +1,243 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const events = [
+  {
+    id: 'llegada',
+    time: '12:30',
+    title: 'Llegada',
+    description: 'Los invitados van llegando a la finca y son recibidos con una bebida fresca. Disfruta del entorno — la finca se encuentra dentro del Parque Nacional de la Sierra de Guadarrama, rodeada de pinares y vistas a las montañas.',
+  },
+  {
+    id: 'ceremonia',
+    time: '13:00',
+    title: 'Ceremonia',
+    description: 'La ceremonia simbólica tiene lugar al aire libre en el corazón de la finca. Encuentra tu sitio, relájate y prepárate para alguna lágrima — de las buenas.',
+  },
+  {
+    id: 'coctel',
+    time: '14:00',
+    title: 'Cóctel',
+    description: 'Tras la ceremonia, los jardines se abren para el cóctel. Bebidas, aperitivos y la oportunidad de moverse, conocer gente y disfrutar del sol de la tarde.',
+  },
+  {
+    id: 'cena',
+    time: '16:00',
+    title: 'Cena',
+    description: 'Los invitados se sientan para una larga y festiva cena. Espera buena comida, buen vino y mucho tiempo alrededor de la mesa — este es el corazón del día.',
+  },
+  {
+    id: 'primer-baile',
+    time: '20:00',
+    title: 'Primer baile',
+    description: 'Thorbjørn y Lorena salen a la pista para su primer baile como pareja casada.',
+  },
+  {
+    id: 'fiesta',
+    time: '20:30',
+    title: 'Fiesta',
+    description: 'La pista se abre para todos. Baile, música y lo que traiga la noche. Los autobuses de vuelta a Rascafría saldrán a intervalos — más detalles en la página de Alojamiento.',
+  },
+];
+---
+
+<Base title="Itinerario — Thorbjørn & Lorena">
+  <div class="itinerary">
+
+    <div class="timeline">
+      {events.map((event, i) => (
+        <button class={`node ${i % 2 === 0 ? 'node-left' : 'node-right'}`} data-id={event.id}>
+          <div class="node-content">
+            <span class="node-time">{event.time}</span>
+            <span class="node-title">{event.title}</span>
+          </div>
+          <span class="node-tick"></span>
+          <span class="node-dot"></span>
+        </button>
+      ))}
+    </div>
+
+    <div class="detail-panel">
+      <p class="detail-prompt" id="detail-prompt">
+        Selecciona cualquier momento del programa para leer más sobre él.
+      </p>
+      {events.map((event) => (
+        <div class="detail-content" id={`detail-${event.id}`}>
+          <p class="detail-time">{event.time}</p>
+          <h2 class="detail-title">{event.title}</h2>
+          <p class="detail-description">{event.description}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</Base>
+
+<script>
+  const nodes = document.querySelectorAll<HTMLButtonElement>('.node');
+  const prompt = document.getElementById('detail-prompt')!;
+
+  nodes.forEach((node) => {
+    node.addEventListener('click', () => {
+      const id = node.dataset.id!;
+      nodes.forEach((n) => n.classList.remove('active'));
+      document.querySelectorAll('.detail-content').forEach((el) => el.classList.remove('active'));
+      node.classList.add('active');
+      prompt.style.display = 'none';
+      document.getElementById(`detail-${id}`)!.classList.add('active');
+    });
+  });
+</script>
+
+<style>
+  .itinerary {
+    display: grid;
+    grid-template-columns: 1.1fr 1.5fr;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    gap: 4rem;
+    align-items: start;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #2c2c2c;
+  }
+
+  .timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #ddd8d0;
+    z-index: 0;
+  }
+
+  .node {
+    display: grid;
+    grid-template-columns: 1fr 0.6rem 0.8rem 0.6rem 1fr;
+    align-items: center;
+    padding: 0.9rem 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    color: inherit;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    text-align: left;
+  }
+
+  .node-dot {
+    grid-column: 3;
+    justify-self: center;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ddd8d0;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .node-left .node-content { grid-column: 1; grid-row: 1; text-align: right; }
+  .node-left .node-tick    { grid-column: 2; grid-row: 1; height: 1px; background: #ddd8d0; align-self: center; transition: background 0.2s; }
+  .node-left .node-dot     { grid-column: 3; grid-row: 1; }
+
+  .node-right .node-content { grid-column: 5; grid-row: 1; text-align: left; }
+  .node-right .node-tick    { grid-column: 4; grid-row: 1; height: 1px; background: #ddd8d0; align-self: center; transition: background 0.2s; }
+  .node-right .node-dot     { grid-column: 3; grid-row: 1; }
+
+  .node-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .node-time {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: #bbb;
+    transition: color 0.2s;
+  }
+
+  .node-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #aaa;
+    transition: color 0.2s;
+    line-height: 1.3;
+  }
+
+  .node:hover .node-dot,  .node.active .node-dot  { background: #2c2c2c; }
+  .node:hover .node-tick, .node.active .node-tick  { background: #bbb; }
+  .node:hover .node-title,.node.active .node-title { color: #2c2c2c; }
+  .node:hover .node-time, .node.active .node-time  { color: #777; }
+
+  .detail-panel { padding-top: 0.4rem; }
+
+  .detail-prompt {
+    font-size: 0.8rem;
+    color: #bbb;
+    line-height: 1.7;
+    font-style: italic;
+    letter-spacing: 0.03em;
+  }
+
+  .detail-content {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    animation: fadein 0.2s ease;
+  }
+
+  .detail-content.active { display: flex; }
+
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .detail-time {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #aaa;
+  }
+
+  .detail-title {
+    font-family: 'Qwitcher Grypen', cursive;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.1;
+  }
+
+  .detail-description {
+    font-size: 0.9rem;
+    line-height: 1.85;
+    color: #555;
+    margin-top: 0.4rem;
+  }
+
+  @media (max-width: 600px) {
+    .itinerary {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding: 3rem 1.5rem;
+    }
+
+    .detail-panel {
+      border-top: 1px solid #ddd8d0;
+      padding-top: 1.5rem;
+      min-height: 8rem;
+    }
+  }
+</style>
