@@ -78,6 +78,14 @@ If memory contradicts a file, trust the file.
 
 ---
 
+## Working Rules
+
+- **English first** — When iterating on any page, only touch `src/pages/en/`. Mirror to `es/` and `da/` only when the user explicitly asks.
+- **User-written text is sacred** — If the user has written content in a file and asks for it to be put on the site, use it word-for-word. No edits, corrections, or "improvements."
+- **Rules live in CLAUDE.md** — Do not store working rules or preferences in the auto-memory system. CLAUDE.md is the single source of truth for how to work on this project.
+
+---
+
 ## Commits
 
 Commit in logical, self-contained chunks with clear messages that describe

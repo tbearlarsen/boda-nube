@@ -2,13 +2,13 @@
 
 ## Status
 
-Site not yet scoped. This file will grow as the user defines features, sections, and pages.
+Site is live and actively being built. Core structure and homepage done. Content pages in progress.
 
 ---
 
 ## Key Constraint
 
-**Wedding date: 5 June 2027.** The site must be live and tested well before that date.
+**Wedding date: 5 June 2027.** Site must be complete and tested well before that date.
 
 ---
 
@@ -25,46 +25,37 @@ Site not yet scoped. This file will grow as the user defines features, sections,
 ### Language Structure
 
 - Three languages: English (EN), Spanish (ES), Danish (DA)
-- Entry point: a language-selector landing page (language-agnostic)
-- Each language gets its own full version of the site under its subdirectory
+- Entry point: redirects to `/en/` by default (language-selector removed in favour of flag switcher)
+- Language switcher: fixed bottom-left animated flag dropdown on every page
 
 ---
 
 ## Confirmed Pages
 
-Working structure — can be adapted at any point before the section is built.
-
-### Core
-
-- Home — couple's names, wedding date, hero photo
-- The Day — ceremony/reception schedule, venue info
-- Travel & Accommodation — getting there, where to stay
-- RSVP — custom form, responses stored in our own database
-- FAQ — dress code, parking, children, etc.
-
-### Secondary
-
-- Our Story
-- Gift Registry (or a note if no registry)
-
-Not included yet: gallery (adds complexity, easy to add later), standalone contact page (FAQ note is enough).
+| Page | Status | Notes |
+| --- | --- | --- |
+| Home | ✅ Done | Hero photo, countdown, Save the Date button |
+| Itinerary | ✅ Done | Alternating timeline, placeholder events — real schedule TBD |
+| Venue | ✅ Done | Description, address, Google Maps embed |
+| Accommodation | 🔲 Placeholder | Hotels near Rascafría, transport/shuttle info |
+| Traditions | 🔲 Placeholder | Danish + Spanish wedding traditions explained to each audience |
+| RSVP | 🔲 Placeholder | Custom form — backend approach not yet decided |
 
 ---
 
-## Pending Scope
+## Pending Decisions
 
-The following are not yet defined. Each will be added here once confirmed with the user.
-
-- [ ] Design direction (palette, typography, mood)
-- [ ] RSVP approach (static form, third-party service, custom backend?)
-- [ ] Hosting and deployment
-- [ ] Domain name
-- [ ] Imagery strategy (user-provided photos vs. placeholders)
-- [ ] Content (story, schedule, FAQ, practical info)
-- [ ] Launch timeline (how many weeks before the wedding must the site be live?)
+- [ ] RSVP backend — Astro server endpoints (requires non-static hosting) vs. a lightweight external service
+- [ ] Design direction — colour palette, typography, final mood (to decide with fiancée; neutral cream/serif in use now)
+- [ ] Accommodation content — hotel list, shuttle strategy (depends on transport planning in wedding repo)
+- [ ] Real itinerary — placeholder events to be replaced once schedule is confirmed
+- [ ] Gallery — not in scope yet; easy to add later
 
 ---
 
 ## Out of Scope (until explicitly added)
 
-Nothing confirmed out of scope yet.
+- Our Story page
+- Gift Registry page
+- FAQ page (info will live inside relevant pages instead)
+- Gallery
