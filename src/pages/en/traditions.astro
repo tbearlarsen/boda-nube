@@ -1,6 +1,282 @@
 ---
 import Base from '../../layouts/Base.astro';
+
+interface Tradition {
+  title: string;
+  body: string | null;
+}
+
+interface Phase {
+  phase: string;
+  description?: string;
+  traditions: Tradition[];
+}
+
+const danish: Phase[] = [
+  {
+    phase: 'Ceremony',
+    traditions: [],
+  },
+  {
+    phase: 'Dinner',
+    description: 'The dinner and its traditions is probably the part of the wedding that is most different in Spanish eyes. You thought the dinner was simply about... eating your dinner? Absolutely not. Here you can read what to expect will happen while you try to savour your meal. Note that Danish traditions are not just rules that one must observe — some are interactive, where the guests play a key role, while others give them power over the couple.',
+    traditions: [
+      {
+        title: 'Speeches',
+        body: null,
+      },
+      {
+        title: 'Kissing the bride or groom',
+        body: 'During dinner, the bride and groom are seated together. If one of them slips away to the bathroom, it is the window for the opposite sex to hurry up and give the remaining party a kiss on the cheek — if the groom leaves, all the women kiss the bride; if the bride leaves, all the men kiss the groom.',
+      },
+      {
+        title: 'On-demand kisses',
+        body: 'At the whim of the guests, when they tap their glasses or plates with their cutlery, the bride and groom have to stand up on their chairs and kiss. When guests stamp their feet, the couple must duck under the table and kiss there instead. This can happen at any point during dinner, as many times in a row as the guests see fit.',
+      },
+    ],
+  },
+  {
+    phase: 'Party',
+    traditions: [
+      { title: 'Bouquet toss', body: null },
+      { title: 'Bridal waltz before midnight', body: null },
+      { title: "Cutting the groom's socks", body: null },
+    ],
+  },
+];
+
+const spanish: Phase[] = [
+  { phase: 'Ceremony', traditions: [] },
+  { phase: 'Dinner', traditions: [] },
+  { phase: 'Party', traditions: [] },
+];
 ---
+
 <Base title="Traditions — Thorbjørn & Lorena">
-  <p>[Placeholder — Danish and Spanish wedding traditions]</p>
+  <div class="traditions">
+
+    <div class="intro">
+      <p>The traditions that our two cultures have at weddings are very different. Taking Lorena's confusion, shock, and glee over the many things she has experienced at Danish weddings, we figured it was a good idea to prepare those of you who are in the same shoes. Select a culture below to find out what to expect.</p>
+    </div>
+
+    <div class="selector">
+      <button class="selector-btn active" data-culture="danish">Danish Traditions</button>
+      <button class="selector-btn" data-culture="spanish">Spanish Traditions</button>
+    </div>
+
+    <div class="culture-content active" id="danish">
+      {danish.map((section) => (
+        <section class="phase">
+          <h2 class="phase-label">{section.phase}</h2>
+          {section.description && <p class="phase-description">{section.description}</p>}
+          {section.traditions.length === 0 ? (
+            <p class="empty">Details coming soon.</p>
+          ) : (
+            section.traditions.map((t) => (
+              <div class={`tradition ${t.body === null ? 'stub' : ''}`}>
+                <h3 class="tradition-title">{t.title}</h3>
+                {t.body !== null
+                  ? <p class="tradition-body">{t.body}</p>
+                  : <p class="tradition-body stub-text">More detail coming soon.</p>
+                }
+              </div>
+            ))
+          )}
+        </section>
+      ))}
+    </div>
+
+    <div class="culture-content" id="spanish">
+      {spanish.map((section) => (
+        <section class="phase">
+          <h2 class="phase-label">{section.phase}</h2>
+          {section.traditions.length === 0 ? (
+            <p class="empty">Details coming soon.</p>
+          ) : (
+            section.traditions.map((t) => (
+              <div class="tradition">
+                <h3 class="tradition-title">{t.title}</h3>
+                <p class="tradition-body">{t.body}</p>
+              </div>
+            ))
+          )}
+        </section>
+      ))}
+    </div>
+
+  </div>
 </Base>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.selector-btn');
+  const panels = document.querySelectorAll<HTMLDivElement>('.culture-content');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.culture!;
+      buttons.forEach((b) => b.classList.remove('active'));
+      panels.forEach((p) => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(target)!.classList.add('active');
+    });
+  });
+</script>
+
+<style>
+  .traditions {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #2c2c2c;
+  }
+
+  /* Intro */
+
+  .intro {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .intro p {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: #555;
+  }
+
+  /* Selector */
+
+  .selector {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .selector-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #bbb;
+    padding: 0 0 0.8rem;
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  .selector-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #2c2c2c;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .selector-btn.active {
+    color: #2c2c2c;
+  }
+
+  .selector-btn.active::after {
+    opacity: 1;
+  }
+
+  .selector-btn:hover:not(.active) {
+    color: #888;
+  }
+
+  /* Culture panels */
+
+  .culture-content {
+    display: none;
+  }
+
+  .culture-content.active {
+    display: block;
+    animation: fadein 0.2s ease;
+  }
+
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Phase sections */
+
+  .phase {
+    margin-bottom: 4rem;
+  }
+
+  .phase-label {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #bbb;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #ddd8d0;
+    margin-bottom: 1.75rem;
+  }
+
+  .phase-description {
+    font-size: 0.875rem;
+    line-height: 1.85;
+    color: #555;
+    margin-bottom: 2rem;
+  }
+
+  /* Traditions */
+
+  .tradition {
+    margin-bottom: 2rem;
+  }
+
+  .tradition:last-child {
+    margin-bottom: 0;
+  }
+
+  .tradition-title {
+    font-family: 'Qwitcher Grypen', cursive;
+    font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .tradition-body {
+    font-size: 0.875rem;
+    line-height: 1.85;
+    color: #555;
+  }
+
+  .stub .tradition-title {
+    color: #bbb;
+  }
+
+  .stub-text {
+    color: #ccc !important;
+    font-style: italic;
+    font-size: 0.8rem !important;
+  }
+
+  .empty {
+    font-size: 0.8rem;
+    color: #ccc;
+    font-style: italic;
+  }
+
+  /* Mobile */
+
+  @media (max-width: 600px) {
+    .traditions {
+      padding: 3rem 1.5rem;
+    }
+  }
+</style>
